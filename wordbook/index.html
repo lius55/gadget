@@ -1,0 +1,48 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>My Page</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+    
+    <script language="javascript">
+		function addWord(){
+			alert("AddWord");
+		}
+	</script>
+</head> 
+<body> 
+
+<div>
+
+<div data-role="page" style="width:480px;">
+
+	<div data-role="header">
+		<h1>Word Book</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<label for="basic">Word:</label>
+    	<input type="text" name="name" id="basic" value=""  />
+        <label for="basic">Pronounciation:</label>
+    	<input type="text" name="name" id="basic" value=""  />
+        <label for="textarea-a">Explain:</label>
+		<textarea name="textarea" id="textarea-a" style="height:300px;">-</textarea>
+	</div><!-- /content -->
+	
+    <table>
+    	<tr>
+        	<td width="140px;"></td>
+        	<td><a href="#" data-role="button" style="width:200px;">Star button</a></td>
+            <td width="140px;"></td>
+        </tr>
+    </table>
+</div><!-- /page -->
+
+</div>
+
+
+</body>
+</html>

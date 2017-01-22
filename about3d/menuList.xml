@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MenuList>
+	<menu id="1">
+		<unit>
+			<img>http://tony56.googlecode.com/svn/trunk/store/widget/about3d/images/01.jpg</img>
+			<width>188</width>
+			<height>250</height>
+			<url></url>
+		</unit>
+		<unit>
+			<img>http://tony56.googlecode.com/svn/trunk/store/widget/about3d/images/02.jpg</img>
+			<width>188</width>
+			<height>250</height>
+			<url></url>
+		</unit>
+		<unit>
+			<img>http://tony56.googlecode.com/svn/trunk/store/widget/about3d/images/03.jpg</img>
+			<width>188</width>
+			<height>138</height>
+			<url></url>
+		</unit>	
+		<unit>
+			<img>http://tony56.googlecode.com/svn/trunk/store/widget/about3d/images/04.jpg</img>
+			<width>188</width>
+			<height>138</height>			
+			<url></url>
+		</unit>
+		<unit>
+			<img>http://tony56.googlecode.com/svn/trunk/store/widget/about3d/images/05.jpg</img>
+			<width>188</width>
+			<height>135</height>
+			<url></url>
+		</unit>
+	</menu>
+</MenuList>

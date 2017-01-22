@@ -1,0 +1,213 @@
+<html>
+	<head>
+    
+<script type="text/javascript">
+
+//添加一个克隆方法
+Array.prototype.clone=function(){
+  var a = [];
+  for(var i=0; i<this.length; i++){
+    if( "object" == typeof(this[i]) && "undefined" != typeof(this[i].length) )
+      a[i] = this[i].clone();
+    else
+      a[i] = this[i];
+  }
+  return a;
+}
+
+//节点对象
+function Node(index,ary,parentIndex,move){
+	this.index = index; 				//节点序号
+	this.ary = ary; 					//节点数据
+	this.parentIndex = parentIndex;		//父节点序号
+	this.move = move; 					//节点移动数据
+}
+
+var rootAry = new Array(1,2,5,0,4,8,3,6,7); 	//初始状态
+var xAxis = 3; 									//列数
+var yAxis = 3; 									//行数
+var aryLength = xAxis * yAxis; 					//方格数目
+var desAry = new Array(0,1,2,3,4,5,6,7,8); 	//目标状态
+var storeList = new Array(); 					//存储队列
+var resultList = new Array(); 					//结果输出队列
+var allList = new Array(); 					//遍历队列
+var nodeIndex = 0; 								//节点Id记录
+var notFound = false; 							//查询结果标识
+var whiteValue = 8;
+
+//根节点
+var rootNode = new Node(nodeIndex,rootAry,0,null);
+
+//当前查看节点
+var checkNode = rootNode;
+
+
+		
+	while(!checkNodeAry(checkNode.ary)){
+		getChildNode(checkNode);
+		if(notFound){
+			break;	
+		}
+		allList.push(checkNode);
+		checkNode = storeList.shift();
+	}
+	
+	if(notFound){
+		document.write("Not Found!");
+	}else{
+		resultList.push(checkNode);
+		getParentNode(checkNode);
+		
+		for(var i = resultList.length - 1; i >= 0; i--){
+			if(i < resultList.length - 1){
+				document.write(resultList[i+1].ary[resultList[i].move[0]] + ", Move ");
+				document.write(outPutDirection(resultList[i].move[1]) + "<br/>"); 
+			}
+			document.write(resultList[i].ary.toString());
+			if(i > 0){ document.write("<br/>"); }
+		}
+	}
+
+
+//输出移动方向
+function outPutDirection(direction){
+	var text = "";
+	if(direction == 1){
+		text = "Up;"
+	}else if(direction == 2){
+		text = "Left";
+	}else if(direction == 3){
+		text = "Down";	
+	}else if(direction == 4){
+		text = "Right";
+	}
+	return text;
+}
+
+//获取父节点
+function getParentNode(node){
+	var parentNode = null;
+	for(var i = allList.length - 1; i >= 0; i--){
+		if(allList[i].index == node.parentIndex){
+			resultList.push(allList[i]);
+			parentNode = allList[i];
+			break;			
+		}
+	}
+	if(parentNode.index != 0){ //根节点
+		getParentNode(parentNode);
+	}
+	return;
+}
+
+//检查是否等于目标节点
+function checkNodeAry(ary){
+	var equalFlag = true;
+	for(var i=0; i < desAry.length; i++){
+		if(desAry[i] - ary[i] != 0){
+			equalFlag = false;
+		}	
+	}
+	return equalFlag;
+}
+
+//获取子节点
+function getChildNode(node){
+	var xPos = 0;
+	var yPos = 0;
+	for(var x = 0; x < xAxis; x++){
+		var breakFlag = false;
+		for(var y = 0; y < yAxis; y++){
+			if(node.ary[y * yAxis + x] == whiteValue){
+				xPos = x; 
+				yPos = y;
+				breakFlag = true;
+				break;
+			}
+		}
+		if(breakFlag){ break; }
+	}
+	
+	var directionAry = new Array();
+	//获取可以移动的方向
+	//↑1 ←2 ↓3 →4
+	if(yPos > 0){
+		directionAry.push(1);
+	}
+	if(xPos > 0){
+		directionAry.push(2);
+	}
+	if(yPos < yAxis - 1){
+		directionAry.push(3);
+	}
+	if(xPos < xAxis - 1){
+		directionAry.push(4);	
+	}
+	
+	var childNodeNum = 0;
+	//从所有可能存在的下一结点中筛选出子节点
+	for(var i = 0; i < directionAry.length; i++){
+		//获取移动后节点的数据
+		var tempAry = moveNodeAry(node.ary.clone(), xPos, yPos,directionAry[i]);	
+		var addFlag = true;
+		for(var j = 0; j < allList.length; j++){
+			var equalNum = aryLength;
+			var element = allList[j].ary;
+			for(var k = 0; k < element.length; k++){
+				if(element[k] - tempAry[k] == 0){ equalNum--; }
+			}
+			if(equalNum == 0){
+				addFlag = false;
+				break;
+			}
+		}
+		//追加子节点
+		if(addFlag){ 
+			//数字位置,移动方向
+			var moveAry = new Array(getMoveNum(xPos, yPos, directionAry[i]), getReverseDirection(directionAry[i]));
+			storeList.push(new Node(++nodeIndex, tempAry, node.index, moveAry)); 
+			childNodeNum++;
+		}
+	}
+	
+	if(childNodeNum == 0){
+		notFound = true;
+	}
+}
+
+//移动节点
+function moveNodeAry(ary, xPos, yPos, direction){
+	var changeFrom = yPos*xAxis + xPos;
+	var changeTo = getMoveNum(xPos, yPos, direction);
+	var temp = ary[changeTo];
+	ary[changeTo] = whiteValue;
+	ary[changeFrom] = temp;
+	return ary;
+}
+
+//根据移动方向获取移动方格的位置
+function getMoveNum(xPos, yPos, direction){
+	if(direction == 1){
+		yPos--;
+	}else if(direction == 2){
+		xPos--;
+	}else if(direction == 3){
+		yPos++;
+	}else if(direction == 4){
+		xPos++;	
+	}
+	return yPos*xAxis + xPos;
+}
+
+//获取空白方格移动方向的相反方向
+function getReverseDirection(direction){
+	direction = (direction - 1 + 2) % 4 + 1;
+	return direction;
+}
+
+</script>
+
+    </head>
+    <body>
+    </body>
+</html>

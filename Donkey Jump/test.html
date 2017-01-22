@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta charset="UTF-8" />
+        <title>test</title>
+    </head>
+    <body>
+        <script type="text/javascript" src="spritebox/BOX.js"></script>
+        <script type="text/javascript" src="js/res.js"></script>
+        <script type="text/javascript" src="spritebox/net/AudioLoader.js"></script>
+        <script type="text/javascript">
+            BOX.AudioLoader.load(audiores, function(state) {
+                if(state.completed) {
+                    BOX.AudioLoader.play('ogg_background');
+                }
+            });
+
+        </script>
+    </body>
+</html>
